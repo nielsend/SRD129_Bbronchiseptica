@@ -1,5 +1,7 @@
 # SRD129_Bordetella_bronchiseptica
 
+**WORK IN PROGRESS!! (9June2021)**
+
 This is the repository for scripts and data files pertaining to the research paper "Shifts in the swine nasal microbiota following Bordetella bronchiseptica challenge in a longitudinal study."
 
 Fastq files are located in Bioproject PRJNA...
