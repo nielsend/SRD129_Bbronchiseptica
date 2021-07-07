@@ -107,17 +107,21 @@ write.csv(fobar2.gather, file="SRD129_BB_NasalGenusPercentAbundance.csv")
 #############NASAL#############   CONTINUE WORKING FROM HERE!
 #Subset each "All" group from fobar2.gather and save as individual csv files.
 #For example:
-D0_Control.genus <- subset(fobar2.gather, All=="D0_Control_NW") #EDIT THIS
-write.csv(D0_Control_NW.genus, file="D0_Control_NW.genus.csv")  #EDIT THIS
+D28_Control.genus <- subset(fobar2.gather, All=="D28_Control") #EDIT THIS
+write.csv(D28_Control.genus, file="D28_Control.genus.csv")  #EDIT THIS
+D28_BB.genus <- subset(fobar2.gather, All=="D28_BB")
+write.csv(D28_BB.genus, file="D28_BB.genus.csv")
 
 #Calculate the total % percent abundance of each genera on each sample (I used JMP to do this) 
-#and save results in a spreadsheet editor such as Excel (see D0_Control_genus.xlsx for an example)
+#In JMP: copy and paste values from Genus and value columns
+#Tables > Summary > input columns for Statistics (% of Total of value column) and Group (Genus column) > OK
+#Copy results to a spreadsheet editor (see D0_Control.genus.xlsx for an example)
 #Since we are only interested in genera that are above 1% abundance, 
 #calculate total percentage of all other genera that are less than 1% in the spreadsheet and label as "Other".
 #Create a new spreadsheet and label as "Nasal_genus.csv"
-#Create the following columns: Day, Treatment group, Tissue, Percent Abundance, and Genus. 
+#Create the following columns: Day, Treatment, Genus, Percent Abundance
 #Copy the list of genera and their percent abundances from each of the individual Excel files to "Nasal genus.csv" spreadsheet.
-#Fill in the other columns manually (Day, Treatment Group). 
+#Fill in the other columns manually (Day, Treatment). 
 #You should have a file similar to SRD129_BBControl_GenusPercentAbundance.csv. Continue to the next step.
 
 #Jan. 30, 2019: edit this csv file to include updated D1 BB percentage info
