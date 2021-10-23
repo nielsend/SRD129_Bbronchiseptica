@@ -104,7 +104,7 @@ ggplot(data=fobar2.gather, aes(x=Treatment, y=value2, fill=Genus)) +
 
 write.csv(fobar2.gather, file="SRD129_BB_NasalGenusPercentAbundance.csv")
 
-#############NASAL#############   CONTINUE WORKING FROM HERE!
+#############NASAL#############
 #Subset each "All" group from fobar2.gather and save as individual csv files.
 #For example:
 D28_Control.genus <- subset(fobar2.gather, All=="D28_Control") #EDIT THIS
@@ -124,38 +124,24 @@ write.csv(D28_BB.genus, file="D28_BB.genus.csv")
 #Fill in the other columns manually (Day, Treatment). 
 #You should have a file similar to SRD129_BBControl_GenusPercentAbundance.csv. Continue to the next step.
 
-#Jan. 30, 2019: edit this csv file to include updated D1 BB percentage info
-nasalgen <- read.table('SRD129_Nasal_GenusPercentAbundance.csv', header = TRUE, sep = ",")
-head(nasalgen)
-
-
-
 #####Nasal genus with other category above 1% abundance######
-#Nasalgen.2 (BB and control only, more than 1% genera)
-unique(nasalgen.2$Treatment) #Control BB
-unique(nasalgen.2$Day) #D0  D1  D10 D14 D21 D28 D3  D36 D42 D7
-nasalgen.2$Day = factor(nasalgen.2$Day, levels = c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
-nasalgen.2$More.than.2=as.character(nasalgen.2$Genus)
-str(nasalgen.2$More.than.2) #Compactly display the internal structure of an R object,
-nasalgen.2$More.than.2[nasalgen.2$Percent.abundance<1]<-"Other"
-write.csv(nasalgen.2, file = "SRD129_Nasal_BBControlNoDNEGGenusPercentAbundanceAbove1percent.csv")
-nasalgen.2b <- read.table('SRD129_Nasal_BBControlNoDNEGGenusPercentAbundanceAbove1percentAddTo100.csv', header = TRUE, sep = ",")
-head(nasalgen.2b)
-levels(nasalgen.2b$Day) #"D0"  "D1"  "D10" "D14" "D21" "D28" "D3"  "D36" "D42" "D7" 
-nasalgen.2b$Day = factor(nasalgen.2b$Day, levels = c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
-levels(nasalgen.2b$Day) #"D0"  "D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
-write.csv(nasalgen.2b, file= "SRD129_BBControl_NasalGen.csv")
+nasalgen <- read.table('SRD129_BBControl_GenusPercentAbundance.csv', header = TRUE, sep = ",")
+head(nasalgen)
+unique(nasalgen$Treatment) #Control BB
+unique(nasalgen$Day) #D0  D1  D10 D14 D21 D28 D3  D36 D42 D7
+nasalgen$Day = factor(nasalgen$Day, levels = c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
+levels(nasalgen$Day) #"D0"  "D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
 
 #Nasalgen.2 abundance plot for each genus, BB and control only, no DNEG12/6, more than 1% genera -- USE THIS
-(nasalgen.2bplot2 <- ggplot(data=nasalgen.2b, aes(x=Day, y=Percent.abundance, fill=Treatment)) +
+(nasalgenplot <- ggplot(data=nasalgen, aes(x=Day, y=Percent.abundance, fill=Treatment)) +
     geom_bar(stat = 'identity', position="dodge") +
-    facet_wrap(~More.than.2, scales = "free") + ylab('Relative abundance (%) at nasal site') +
+    facet_wrap(~Genus, scales = "free") + ylab('Relative abundance (%) at nasal site') +
     theme_gray()+
     theme(plot.title = element_text(hjust = 2)) +
     theme(axis.line = element_line()) +
     scale_fill_igv(name = "Genus") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)))
-nasalgen.2bplot2
+nasalgenplot
 
 
 #### Subset each "All" group from fobar2.gather ####
@@ -321,7 +307,11 @@ unique(D42_BB_N.genus$Indicator) #95 for indicator column
 write.csv(D42_BB_N.genus, file = "D42_BB_N.genus.csv")
 
 
-#####Nasal genus DESeq2 abundance######
+#####Nasal genus DESeq2 abundance###### CONTINUE WORKING ON THIS!! 
+## To Do:
+## Find email with list of organisms, compare with current list and also SRD129_Nasal_BBControlNoDNEG_GenusAbundanceMatchDESeq2List.csv
+## Compare with old figures - find email?
+
 #Modify nasalgen2.1 to narrow list of genera to the list of DESeq2 significant genera
 write.csv(nasalgen2.1, file="SRD129_Nasal_BBControlNoDNEG_GenusAbundanceMatchDESeq2List.csv")
 nasalgen2.1.a <- read.csv("SRD129_Nasal_BBControlNoDNEG_GenusAbundanceMatchDESeq2ListModified.csv")
