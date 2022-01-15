@@ -1,14 +1,12 @@
 # SRD129_Bordetella_bronchiseptica
 
-**WORK IN PROGRESS!! (9June2021)**
+**Last updated 15Jan2022**
 
 This is the repository for scripts and data files pertaining to the research paper "Shifts in the swine nasal microbiota following Bordetella bronchiseptica challenge in a longitudinal study."
 
-Fastq files are located in Bioproject PRJNA...
+Fastq files are located in Bioproject PRJNA525911.
 
-R version 3.6.3 (2020-02-29) and accompanying packages were used to run the scripts for this research.
-
-See SRD129_BB_Rscripts.Rmd for collation of R scripts used for SRD129_Bordetella_bronchiseptica swine nasal microbiota analysis.
+R version 4.0.2 (2020-06-22) and accompanying packages were used to run the scripts for this research.
 
 ### **Nomenclature**
 BB = *Bordetella bronchiseptica*
@@ -17,6 +15,7 @@ BB = *Bordetella bronchiseptica*
 | Chapter | Description |
 | -- | -- |
 | [data](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/data) | Includes data files needed to carry out R analysis |
+| [results](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/results) | Includes results output generated from [3_alpha_beta_diversity_BB.R](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/scripts/3_alpha_beta_diversity_BB.R) and [4_Nasal_DeSeq2_genus_BB.R](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/scripts/4_Nasal_DeSeq2_genus.R) analysis |
 | [scripts](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/scripts) | Text file of commands used for mothur, R scripts for 16S rRNA analysis|
 
 ## **Scripts description and the order to run them**
