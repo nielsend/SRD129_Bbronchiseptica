@@ -620,3 +620,6 @@ unique(nasalgen2$Treatment) #BB Control
     theme(strip.text = element_text(size= 13, face='italic'), 
           legend.text = element_text(size=13),
           legend.title = element_text(size=13)))
+
+#Save 'nasalgen2_logfoldplot' as a .tiff for publication, 500dpi
+ggsave("Figure_5.tiff", plot=nasalgen2_logfoldplot, width = 16, height = 6, dpi = 500, units =c("in"))

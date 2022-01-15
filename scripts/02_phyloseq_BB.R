@@ -153,7 +153,6 @@ phyloseqbb #view phyloseq object
 save(phyloseqbb, file="SRD129Flu.phyloseq.RData")
 
 #Run adonis function to determine effect of time and treatment on structure of nasal microbiota
-
 adonis.bb <- as(sample_data(phyloseqbb), "data.frame")
 class(adonis.bb) #data.frame
 

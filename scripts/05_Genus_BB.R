@@ -1,5 +1,5 @@
 ############################################################
-#SRD129 16S - Total Genera
+#SRD129 16S - Total Nasal Genera
 #By Mou KT
 
 #NOTES: 
@@ -146,3 +146,6 @@ nasalgenplot <- ggplot(data=nasalgen, aes(x=Treatment, y=Percent.abundance, fill
 nasalgenplot <- nasalgenplot + guides(fill= guide_legend(ncol = 2))
 nasalgenplot <- nasalgenplot + theme(legend.text = element_text(face = 'italic'))
 nasalgenplot
+
+#Save 'nasalgenplot' as a .tiff for publication, 500dpi
+ggsave("Figure_4.tiff", plot=nasalgenplot, width = 15, height = 6, dpi = 500, units =c("in"))

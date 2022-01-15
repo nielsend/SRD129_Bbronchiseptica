@@ -47,5 +47,5 @@ nasal <- ggplot(data=nasalmag, aes(x=Day, y=F.Model, group=Treatment)) +
 nasal
 
 #Save 'nasal' as a .tiff for publication, 300dpi
-ggsave("SRD129_BB_MagnitudeOfChange.tiff", plot=nasal, width = 8, height = 4, dpi = 300, units =c("in"))
+ggsave("Figure_2.tiff", plot=nasal, width = 8, height = 4, dpi = 300, units =c("in"))
 

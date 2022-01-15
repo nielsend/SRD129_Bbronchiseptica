@@ -1,5 +1,5 @@
 #########################################
-#SRD129 16S - Beta diversity
+#SRD129 16S - Alpha and Beta diversity
 #By Mou, KT
 
 #Purpose: This code generates non-metric multidimensional scaling ordination based on Bray-Curtis dissimilarities to create NMDS plots, and runs pairwise.adonis function to identify any significant differences in bacterial composition between treatment groups on a given day.
@@ -137,7 +137,7 @@ pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'b
 #######################################################################
 
 #Setting up 'phyloseqbb' into dataframes for beta diversity NMDS calculation
-bb.sam <- data.frame(phyloseqbb@sam_data) #Make 'phyloseqbb sam_data' into dataframe. Carry over Phyloseqbb object from 2_phyloseq_BB.R
+bb.sam <- data.frame(phyloseqbb@sam_data) #Make 'phyloseqbb sam_data' into dataframe. Carry over Phyloseqbb object from 02_phyloseq_BB.R
 bb.otu <- data.frame(t(phyloseqbb@otu_table)) #Make 'phyloseqbb otu_table' into dataframe
 class(bb.sam) #data.frame
 rownames(bb.sam) == row.names(bb.otu) #For rows with sums greater than 1 in 'bb.otu', move rows and their respective sum values into "numOTUs" column in 'bb.sam'
@@ -178,7 +178,9 @@ bbNMDSplot <- ggplot(data=bb.NMDS.2, aes(x=MDS1, y=MDS2, color=Treatment)) + geo
   #scale_color_brewer(palette="Dark2") +
   theme_gray(base_size = 10) +
   theme(strip.text.x = element_text(size=15)) +
-  labs(caption = 'Ordination stress = 0.17', color="Treatment group")
+  labs(color="Treatment group") +
+  theme(legend.text = element_text(size=13),
+        legend.title = element_text(size=13))
 bbNMDSplot
 
 #Save 'bbNMDSplot' as a .tiff for publication, 500dpi
@@ -279,9 +281,5 @@ bb.invsimp.bw <- ggplot(data = bb.sam, aes(x=Treatment, y=invsimpson, group=All,
         axis.title.y = element_text(size=15))
 bb.invsimp.bw
 
-#combine shannon and inverse simpson box and whisker plots
-bb.combalpha <- plot_grid(bb.shan.bw + theme(legend.position = "none"), bb.invsimp.bw, labels = "AUTO")
-bb.combalpha
-
-#Save 'bb.combalpha' as a .tiff for publication, 500dpi
-ggsave("SRD129_BBControl_ShannonInverseSimpsonCombined.tiff", plot=bb.combalpha, width = 10, height = 5, dpi = 500, units =c("in"))
+#Save 'bb.invsimp.bw' as a .tiff for publication, 500dpi
+ggsave("Figure_X.tiff", plot=bb.invsimp.bw, width = 10, height = 5, dpi = 500, units =c("in"))
