@@ -594,110 +594,29 @@ sigtab.D42.bc$comp <- 'D42_BBvsControl'
 #Create final significant comparisons table of days with non-significant beta diversity changes
 final.nonsigtab <- rbind(final.nonsigtab,sigtab.D42.bc)
 
-#######################################################################################################
+#write csv and save within ./results
+write.csv(final.nonsigtab, file= "SRD129_BBControl_FinalDiffAbundNasalGenus_SignificantDays.csv")
 
-#write csv
-write.csv(final.nonsigtab, file= "SRD129BB_FinalDiffAbundNasalGenus_SignificantDays.csv")
+#Export nasalgenplot from 05_Genus_BB.R as a figure and cross-reference with SRD129_BBControl_FinalDiffAbundNasalGenus_SignificantDays.csv
+#to narrow down list of DESeq2 significant genera with abundance >1%, and are not differentially abundant on day 0.
+#Save a copy of SRD129_BBControl_FinalDiffAbundNasalGenus_SignificantDays.csv with the narrowed list of genera and
+#save as SRD129_BBControl_Nasal_GenusAbundanceMatchDESeq2List.csv
 
-#######################################################################################################
-
-
-
-######### Plots of Diff Abund Nasal Families and Genera Combined for each pairwise comparison ########
-library("ggsci")
-
-#BB and Control
-final_bc <- sigtab.D0.bc
-final_bc <- rbind(final_bc, sigtab.D1.bc, sigtab.D3.bc, sigtab.D7.bc, sigtab.D10.bc, 
-                  sigtab.D14.bc, sigtab.D21.bc, sigtab.D28.bc, sigtab.D36.bc, sigtab.D42.bc)
-final_bc$Family_Genus <- paste(final_bc$Family, final_bc$Genus) #create new column with Family_Genus
-final_bc$comp
-final_bc$comp <- factor(final_bc$comp, levels=c("D0_BBvsControl", "D1_BBvsControl", "D3_BBvsControl", "D7_BBvsControl", "D10_BBvsControl", "D14_BBvsControl", "D21_BBvsControl", "D28_BBvsControl", "D36_BBvsControl", "D42_BBvsControl"))
-levels(final_bc$comp)
-bc_plot <- ggplot(final_bc, aes(x=Family_Genus, log2FoldChange, fill = comp)) +
-  geom_bar(stat='identity') +
-  labs(x="Family Genus", y = "Total log2 Fold Change") +
-  theme(axis.text.x=element_text(color = 'black', size = 18),
-        axis.text.y=element_text(color = 'black', size=15), 
-        axis.title.x=element_text(size = 20),
-        axis.title.y=element_text(size = 20))+ 
-  coord_flip() +
-  scale_fill_igv(name = "comp") +
-  ggtitle('Differentially Abundant Nasal Families and Genera between Bordetella bronchiseptica and Control Groups') + 
-  theme(plot.title = element_text(size = 20), legend.text = element_text(size=20), legend.title = element_text(size=20))
-bc_plot <- bc_plot + guides(fill=guide_legend(title="Day and treatment group"))
-bc_plot
-
-#BB and control Log2fold and Basemean plots
-bc <- read.csv('./results/SRD129BB_FinalDiffAbundNasalGenus_SignificantDays', header = TRUE, sep = ",")
-head(bc[,1:10])
-colnames(bc)
-bc$Day <- sub('_[A-Za-z]+', '\\2', bc$comp)
-unique(bc$Day) #"D0"  "D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
-bc$Day = factor(bc$Day, levels=c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
-levels(bc$Day)
-
-(logfoldplot <- ggplot(data=bc, aes(x=Day, y=log2FoldChange, fill=Treatment)) +
-    geom_bar(stat = 'identity', position="dodge") +
-    facet_wrap(~Genus, scales = "free") + ylab('log2-fold change') +
-    theme_gray()+
-    theme(plot.title = element_text(hjust = 2)) +
-    theme(axis.line = element_line()) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)))
-
-(basemeanplot <- ggplot(data=bc, aes(x=Day, y=baseMean, fill=Treatment)) +
-    geom_bar(stat = 'identity', position="dodge") +
-    facet_wrap(~Genus, scales = "free") + ylab('baseMean') +
-    theme_gray()+
-    theme(plot.title = element_text(hjust = 2)) +
-    theme(axis.line = element_line()) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)))
-
-###### BB and control, >1% abundance, at least 100 reads, select genera Log2fold plots ###### WORK ON THIS!
-## How to pick out OTUs with > 1% abundance? at least 100 reads?
-
-bbe <- read.csv('SRD129_FinalDiffAbundNasalGenus_BBControl_NoDNEG_CondensedList_GreaterThan1PercentAbundance.csv', header = TRUE, sep = ",")
-head(bbe[,1:10])
-colnames(bbe)
-bbe$DayComp <- sub('_[A-Za-z]+', '\\2', bbe$comp)
-unique(bbe$DayComp) #"D1_BBvsControl"  "D10_BBvsControl" "D3_BBvsControl"  "D7_BBvsControl"  "D14_BBvsControl" "D28_BBvsControl" "D42_BBvsControl" "D21_BBvsControl" "D36_BBvsControl"
-bbe$Day <- sub('_[A-Za-z]+', '\\2', bbe$DayComp)
-unique(bbe$Day) #"D1"  "D10" "D3"  "D7"  "D14" "D28" "D42" "D21" "D36"
-bbe$Day = factor(bbe$Day, levels=c("D1","D3","D7","D10","D14","D21","D28","D36","D42"))
-levels(bbe$Day) #"D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
-(bbe_logfoldplot <- ggplot(data=bbe, aes(x=Day, y=log2FoldChange, fill=Treatment)) +
+#Plot new list of DESeq2 significant genera
+nasalgen2 <- read.csv("./data/SRD129_BBControl_Nasal_GenusAbundanceMatchDESeq2List.csv")
+nasalgen2$Day <- sub('_[A-Za-z]+', '\\2', nasalgen2$comp) #create new column "Day" by extracting from column "comp"
+unique(nasalgen2$Day) #"D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
+nasalgen2$Day = factor(nasalgen2$Day, levels=c("D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
+levels(nasalgen2$Day) #"D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
+unique(nasalgen2$Treatment) #BB Control
+(nasalgen2_logfoldplot <- ggplot(data=nasalgen2, aes(x=Day, y=log2FoldChange, fill=Treatment)) +
     geom_bar(stat = 'identity', position="dodge") +
     facet_wrap(~Genus, ncol = 5, scales = "free") + ylab('log2-fold change') +
     theme_gray()+
     theme(plot.title = element_text(hjust = 3)) +
     theme(axis.line = element_line()) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)))
-bbe_logfoldplot <- bbe_logfoldplot + theme(strip.text = element_text(size= 13, face='italic'))
-bbe_logfoldplot
-
-##### BB and control, >1% and <1% abundance, at least 100 reads, select genera Log2fold plots #### WORK ON THIS!
-# Selected Blautia, Burkholderiaceae_unclassified, Chryseobacterium, Clostridium_sensu_stricto_1, Enhydrobacter, Escherichia-Shigella, Megasphaera, Pasteurellaceae_unclassified, Phascolarctobacterium, Prevotella_9, Prevotellaceae_UCG-003, Prevotellaceae_unclassified, Staphylococcus, Terrisporobacter, Weissella from SRD129_FinalDiffAbundNasalGenus_BBControl_NoDNEG_CondensedList_GreaterThan1PercentAbundance.csv
-
-bbf <- read.csv('./results/SRD129_FinalDiffAbundNasalGenus_BBControl_NoDNEG_CondensedList_GreaterThan1PercentAbundance_WithFS1RespiratoryOrganisms.csv', header = TRUE, sep = ",")
-head(bbf[,1:10])
-colnames(bbf)
-unique(bbf$comp) # "D1_BBvsControl"  "D14_BBvsControl" "D21_BBvsControl" "D28_BBvsControl" "D7_BBvsControl"  "D10_BBvsControl" "D3_BBvsControl"  "D36_BBvsControl"
-bbf$Day <- sub('_[A-Za-z]+', '\\2', bbf$comp)
-unique(bbf$Day) #"D1"  "D14" "D21" "D28" "D7"  "D10" "D3"  "D36"
-bbf$Day = factor(bbf$Day, levels=c("D1","D3","D7","D10","D14","D21","D28","D36"))
-levels(bbf$Day) #"D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36"
-(bbf_logfoldplot <- ggplot(data=bbf, aes(x=Day, y=log2FoldChange, fill=Treatment)) +
-    geom_bar(stat = 'identity', position="dodge") +
-    facet_wrap(~Genus, ncol = 5, scales = "free") + ylab('log2-fold change') +
-    theme_gray()+
-    theme(plot.title = element_text(hjust = 3)) +
-    theme(axis.line = element_line()) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)))
-bbf_logfoldplot <- bbf_logfoldplot + theme(strip.text = element_text(size= 13, face='italic'))
-bbf_logfoldplot
-
-
-######################################################################################################
-
-unique(final.nonsigtab$OTU) #number of unique OTUs in all groups combined
-#206 unique OTUs from non-significant days
+(nasalgen2_logfoldplot <- nasalgen2_logfoldplot + 
+    theme(strip.text = element_text(size= 13, face='italic'), 
+          legend.text = element_text(size=13),
+          legend.title = element_text(size=13)))
