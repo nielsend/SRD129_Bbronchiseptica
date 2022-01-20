@@ -137,7 +137,7 @@ pairwise.adonis <- function(x,factors, sim.function = 'vegdist', sim.method = 'b
 #######################################################################
 
 #Setting up 'phyloseqbb' into dataframes for beta diversity NMDS calculation
-bb.sam <- data.frame(phyloseqbb@sam_data) #Make 'phyloseqbb sam_data' into dataframe. Carry over Phyloseqbb object from 02_phyloseq_BB.R
+bb.sam <- data.frame(phyloseqbb@sam_data) #Make 'phyloseqbb sam_data' into dataframe. Carry over phyloseqbb object from 02_phyloseq_BB.R
 bb.otu <- data.frame(t(phyloseqbb@otu_table)) #Make 'phyloseqbb otu_table' into dataframe
 class(bb.sam) #data.frame
 rownames(bb.sam) == row.names(bb.otu) #For rows with sums greater than 1 in 'bb.otu', move rows and their respective sum values into "numOTUs" column in 'bb.sam'
@@ -159,12 +159,12 @@ bb.df_ell.2 <- bb.NMDS[[2]]
 bb.df_ell.2$group
 head(bb.df_ell.2)
 
-#Create "Day" and "Treatment" columns within 'nw.df_ell' for faceting purposes
+#Create "Day" and "Treatment" columns within 'bb.df_ell.2' for faceting purposes
 bb.df_ell.2$Day <- sub(' [A-Za-z]+', '\\1', bb.df_ell.2$group) #Created "Day" column, '\\1' returns the first part of the regular expression D[A-z0-9]+ from 'bb.df_ell.2$group'
 bb.df_ell.2$Treatment <- sub('D[A-z0-9]+ ', '\\2', bb.df_ell.2$group) #Create "Treatment" column, '\\2' returns the second part of the sub expression ([A-Za-z]+) from 'bb.df_ell.2$group'
 head(bb.df_ell.2)
 
-#Restructure level order for 'nw.metanmds' and 'nw.df_ell'
+#Restructure "Day" level order for 'bb.df_ell.2' and 'bb.NMDS.2'
 bb.NMDS.2$Day = factor(bb.NMDS.2$Day, levels=c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
 bb.df_ell.2$Day = factor(bb.df_ell.2$Day, levels=c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
 levels(bb.df_ell.2$Day) # [1] "D0"  "D1"  "D3"  "D7"  "D10" "D14" "D21" "D28" "D36" "D42"
@@ -216,9 +216,9 @@ write.csv(goodcomps.bb.adon.2, file='bb.pairwisecomparisons.csv', row.names=TRUE
 bb.sam$shannon <- diversity(bb.otu) #diversity is vegan function, default index is shannon
 #added a shannon index column in nw.meta.nobad
 bb.sam$invsimpson <- diversity(bb.otu,index = 'invsimpson')
-#use invsimpson since easier to understand than simpson
+#use invsimpson since it is easier to understand than simpson
 #don't need to "inverse" simpson values
-#simpson: low the number = higher diversity
+#simpson: low number = higher diversity
 
 levels(sample_data(bb.sam)$Day) #"D0"  "D1"  "D10" "D14" "D21" "D28" "D3"  "D36" "D42" "D7"
 bb.sam$Day = factor(bb.sam$Day, levels=c("D0", "D1", "D3", "D7", "D10", "D14", "D21", "D28", "D36", "D42"))
@@ -252,7 +252,7 @@ print(bb.sam.average.shannon.invsimpson.numOTUs)
 # 20  D7 Control  59.70000 2.393280   5.465053
 
 bb.pairwise.wilcox.shannon.test <- pairwise.wilcox.test(bb.sam$shannon, bb.sam$All, p.adjust.method = 'none') #Calculate pairwise comparisons by "All" column of the shannon indices in "Shannon" column
-print(bb.pairwise.wilcox.shannon.test) #Look at the results of 'nw2.pairwise.wilcox.shannon.test'
+print(bb.pairwise.wilcox.shannon.test) #Look at the results of 'bb.pairwise.wilcox.shannon.test'
 bb.pairwise.wilcox.invsimpson.test <- pairwise.wilcox.test(bb.sam$invsimpson, bb.sam$All, p.adjust.method = 'none')
 print(bb.pairwise.wilcox.invsimpson.test)
 

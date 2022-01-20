@@ -2,7 +2,8 @@
 #SRD129 16S - Creating phyloseq objects
 #By Mou, KT
 
-#Purpose: Create phyloseq objects to be used to calculate alpha and beta diversity measures for nasal samples in BB and Control groups. This section will also use the adonis function to determine the effect of time and treatment on the community structure of nasal microbiota.
+#Purpose: Create phyloseq objects to be used to calculate alpha and beta diversity measures for nasal samples in BB and Control groups. 
+#This section will also use the adonis function to determine the effect of time and treatment on the community structure of nasal microbiota.
 
 #Files needed:
 #OTU table: SRD129BBabundsingleton2000OTUtable.csv
@@ -30,7 +31,7 @@ head(meta[,1:5]) #Check first part of 'meta' table
 #Remove taxonomy from 'otu'
 tax <- otu[,(196:197)] #Copy column 197 taxonomy and 196 to keep the row names from 'otu' to 'tax'
 head(tax)
-colnames(tax)[1] <- "delete" #Rename column 1 of 'tax' (formerly column 154) as "delete" which will be deleted later
+colnames(tax)[1] <- "delete" #Rename column 1 of 'tax' (formerly column 196) as "delete" which will be deleted later
 head(tax)
 
 #Modify 'otu' with only OTU count data
@@ -150,7 +151,7 @@ phyloseqbb #view phyloseq object
 #sample_data() Sample Data:       [ 190 samples by 5 sample variables ]
 #tax_table()   Taxonomy Table:    [ 1296 taxa by 6 taxonomic ranks ]
 
-save(phyloseqbb, file="SRD129Flu.phyloseq.RData")
+save(phyloseqbb, file="SRD129bb.phyloseq.RData")
 
 #Run adonis function to determine effect of time and treatment on structure of nasal microbiota
 adonis.bb <- as(sample_data(phyloseqbb), "data.frame")
@@ -169,12 +170,12 @@ full.bb_2 #Display results
 #If distance function is giving an error message below:
 #"Error: x should be a data.frame, data.table, tbl, tbl_df, array, or matrix."
 #Use vegdist function from vegan package to run distance calculations instead of the distance function
-#(original "distance" function that was used below is no longer available) and use those calculations to run through adonis test
+#and use those calculations to run through adonis test.
 #vegdist requires that phyloseq object's OTU table has OTUs listed in the columns and sample names listed in rows.
 #Also, remove any OTUs with taxa_sums = 0 or non-numeric values. For example, this command can help remove OTUs with taxa_sums = 0:
 #OTU <- prune_taxa(taxa_sums(<yourOTUtable>) > 0, <yourOTUtable>)
 #If you create a separate phyloseq object with this specific OTU table setup,
-#you should be able to run the vegdist function without any errors and use the output to run through adonis function
+#you should be able to run the vegdist function without any errors and use the output to run through adonis function.
 
 head(otu.meta4) #Sample names are listed in rows and OTUs are listed in columns in 'otu.meta4'
 OTU.2 = otu_table(otu.meta4, taxa_are_rows = TRUE)

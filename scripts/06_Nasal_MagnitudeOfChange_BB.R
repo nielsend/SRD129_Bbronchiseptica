@@ -9,7 +9,9 @@
 rm(list=ls())
 
 #File needed:
-#bb.pairwisecomparisons.csv: copy the F.Model, R2, p.value, p.adjusted, p.adjusted2 columns to a new spreadsheet as columns #3-7. For the first column, label as "Day" and list all days (0, 1, 3, 7, 10, etc.). Label second column as "Treatment" and list "BB" in all respective cells under this column. Save this as SRD129_BB_MagnitudeOfChange.csv.
+#bb.pairwisecomparisons.csv: copy the F.Model, R2, p.value, p.adjusted, p.adjusted2 columns to a new spreadsheet as columns #3-7. 
+#For the first column, label as "Day" and list all days (0, 1, 3, 7, 10, etc.). Label second column as "Treatment" and list "BB" in all respective cells under this column. 
+#Save this as SRD129_BB_MagnitudeOfChange.csv.
 
 #Load library packages
 library(vegan)
@@ -48,4 +50,3 @@ nasal
 
 #Save 'nasal' as a .tiff for publication, 300dpi
 ggsave("Figure_2.tiff", plot=nasal, width = 8, height = 4, dpi = 300, units =c("in"))
-

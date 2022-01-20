@@ -10,7 +10,8 @@
 #SRD129BB.outsingletons.abund.opti_mcc.0.03.subsample.shared
 #SRD129BB.outsingletons.abund.subsample.shared.csv
 
-#The output files from mothur needed in R for this section and subsequent sections, aside from fasta files, are text files that can be saved as csv for ease of use in R.
+#The output files from mothur that are needed in R for this section and subsequent sections, 
+#aside from fasta files, are text files that can be saved as csv for ease of use in R.
 
 #Load library package
 library(tidyverse)

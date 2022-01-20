@@ -59,9 +59,6 @@ SRD129 <- prune_samples(sample_sums(SRD129) > 2000, SRD129)  # This removes samp
 SRD129 <- prune_taxa(taxa_sums(SRD129) > 10, SRD129)        # removes OTUs that occur less than 10 times globally
 tax_table(SRD129) [1:5, 1:6] #see what's in tax_table first 5 rows, first 6 columns
 
-# If you want to group OTUs uncomment the tax_glom() line and select your desired taxrank
-# right now all these analysis are done at the OTU level.
-
 SRD129.genus <- tax_glom(SRD129, taxrank = "Genus")
 # This method merges species that have the same taxonomy at a certain taxanomic rank. 
 # Its approach is analogous to tip_glom, but uses categorical data instead of a tree. 

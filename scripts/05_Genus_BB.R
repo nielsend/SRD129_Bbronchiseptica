@@ -1,6 +1,6 @@
 ############################################################
 #SRD129 16S - Total Nasal Genera
-#By Mou KT
+#By Mou, KT
 
 #NOTES: 
 #This code determines the total number of nasal genera found in each treatment group per day and plots as bar graphs
@@ -62,8 +62,8 @@ head(phyla_tab2)
 fobar <- merge(meta, phyla_tab2, by = 'group') #merge meta with phyla_tab2 by "group"
 head(fobar)
 
-fobar.gather <- fobar %>% gather(Genus, value, -(group:Treatment))  #converts to long form dataframe, this is handy for using ggplot faceting functions, check out tidyverse tutorials
-#create new columns Genus, value; add columns group to All before Genus and value
+fobar.gather <- fobar %>% gather(Genus, value, -(group:Treatment))  #converts to long form dataframe, this is handy for using ggplot faceting functions, check out tidyverse tutorials.
+#Create new columns Genus, value; add columns group to All before Genus and value
 head(fobar.gather)
 
 #modified ggplot
@@ -120,7 +120,7 @@ write.csv(D28_BB.genus, file="D28_BB.genus.csv")
 #calculate total percentage of all other genera that are less than 1% in the spreadsheet and label as "Other".
 #Create a new spreadsheet and label as "Nasal_genus.csv"
 #Create the following columns: Day, Treatment, Genus, Percent Abundance
-#Copy the list of genera and their percent abundances from each of the individual Excel files to "Nasal genus.csv" spreadsheet.
+#Copy the list of genera and their percent abundances from each of the individual Excel files to "Nasal_genus.csv" spreadsheet.
 #Fill in the other columns manually (Day, Treatment). 
 #You should have a file similar to SRD129_BBControl_NasalGenusPercentAbundance.csv. Continue to the next step.
 
