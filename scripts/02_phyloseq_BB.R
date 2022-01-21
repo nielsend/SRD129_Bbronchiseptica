@@ -16,7 +16,6 @@ library(dplyr)
 library(tidyr)
 library(tidyverse)
 library(phyloseq)
-library(vegdist)
 
 #Read files
 otu <- read.csv("./data/SRD129BBabundsingleton2000OTUtable.csv", row.names=1) #Set column 1 as row names
