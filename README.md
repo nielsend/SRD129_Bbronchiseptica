@@ -1,6 +1,6 @@
 # SRD129_Bordetella_bronchiseptica
 
-**Last updated 15Jan2022**
+**Last updated 24Jan2022**
 
 This is the repository for scripts and data files pertaining to the research paper "Shifts in the swine nasal microbiota following Bordetella bronchiseptica challenge in a longitudinal study."
 
