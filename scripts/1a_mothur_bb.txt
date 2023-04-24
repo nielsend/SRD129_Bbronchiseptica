@@ -1,0 +1,167 @@
+# SRD129 16S- Mothur
+# Mothur v. 1. 48.0 was used
+
+#Purpose: To use mothur to process paired-end 16S rRNA gene sequences from the research paper "Changes in the swine nas>
+#Files needed:
+#*.fastq files from Bioproject PRJNA525911
+
+set.dir(input=C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\fastq\)
+set.dir(output=C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal)
+
+make.file(inputdir=C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\fastq\, type=fastq, prefix=SRD129BB)
+make.contigs(file=SRD129BB.files)
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.fasta
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.scrap.contigs.fasta
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.contigs_report
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.contigs.count_table
+
+
+summary.seqs(fasta=SRD129BB.trim.contigs.fasta, count=SRD129BB.contigs.count_table)
+screen.seqs(fasta=SRD129BB.trim.contigs.fasta, count=SRD129BB.contigs.count_table, maxambig=0, maxlength=275, maxhomop=6) #removed 2,703,448/8,701,446, ~31%+?
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.fasta
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.bad.accnos
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.contigs.good.count_table
+
+summary.seqs(fasta=SRD129BB.trim.contigs.good.fasta, count=SRD129BB.contigs.good.count_table)
+unique.seqs(fasta=SRD129BB.trim.contigs.good.fasta, count=SRD129BB.contigs.good.count_table)
+
+pcr.seqs(fasta=silva.nr_v132.align, start=11895, end=25318, keepdots=F)
+#try
+#pcr.seqs(fasta=silva.gold.align start=11895, end=25318, keepdots=F)
+#pcr.seqs(fasta=silva.seed_v132.align start=11895, end=25318, keepdots=F)
+
+
+rename.file(input=silva.nr_v132.pcr.align, new=silva.v4.fasta)
+
+align.seqs(fasta=SRD129BB.trim.contigs.good.unique.fasta, reference=silva.v4.fasta, flip=T)
+#align.seqs(fasta=SRD129BB.trim.contigs.good.unique.fasta, reference=silva.v4.fasta, flip=T)
+#align.seqs(fasta=SRD129BB.trim.contigs.good.fasta, reference=silva.v4.fasta, flip=T)
+
+summary.seqs(fasta=current, count=SRD129BB.trim.contigs.good.count_table)
+#summary.seqs(fasta=SRD129BB.trim.contigs.good.align, count=SRD129BB.contigs.good.count_table)
+
+screen.seqs(fasta=SRD129BB.trim.contigs.good.unique.align, count=SRD129BB.trim.contigs.good.count_table, start=1968, end=11550, maxhomop=6)
+
+filter.seqs(fasta=SRD129BB.trim.contigs.good.unique.good.align, vertical=T, trump=.)
+#Length of filtered alignment: 552
+#Number of columns removed: 12872
+#Length of the original alignment: 13424
+#Number of sequences used to construct filter: 225230
+
+Output File Names:
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.filter
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.fasta
+#Output File Names:
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.filter
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.fasta
+
+unique.seqs(fasta=SRD129BB.trim.contigs.good.unique.good.filter.fasta, count=SRD129BB.trim.contigs.good.good.count_table)
+Output File Names:
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.fasta
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.count_table
+
+pre.cluster(fasta=SRD129BB.trim.contigs.good.unique.good.filter.unique.fasta, count=SRD129BB.trim.contigs.good.unique.good.filter.count_table, diffs=2)
+
+chimera.vsearch(fasta=SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.fasta, count=SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.count_table, dereplicate=t)
+#Output File Names:
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.count_table
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.chimeras
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.fasta
+
+remove.seqs(fasta=current, accnos=current)
+#Output File Names:
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.fasta
+
+summary.seqs(fasta=current, count=current)
+# of unique seqs:       43846
+total # of seqs:        5899826
+
+
+classify.seqs(fasta=SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.fasta, count=SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.count_table, reference=silva.v4.fasta, taxonomy=silva.nr_v132.tax, cutoff=80)
+#Output
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.taxonomy
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.tax.summary
+
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)
+#Output
+Output File Names:
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.pick.taxonomy
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.accnos
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.fasta
+
+summary.tax(taxonomy=current, count=current)
+Output File Names:
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.pick.tax.summary
+
+##Rename in bash to simplify name
+mv SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.fasta SRD129BB.outsingletons.fasta
+mv SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table SRD129BB.outsingletons.count_table
+
+
+
+#Take out all the sequences that occur once
+split.abund(fasta=SRD129BB.outsingletons.fasta, count=SRD129BB.outsingletons.count_table, cutoff=1, accnos=true)
+
+Output File Names:
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.rare.accnos
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.abund.accnos
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.rare.count_table
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.rare.fasta
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.abund.count_table
+C:\Users\Daniel.W.Nielsen\Desktop\IAV_SRD129\SRD129BB.outsingletons.abund.fasta
+
+#Calculate uncorrected pairwise distances between aligned DNA sequences
+dist.seqs(fasta=SRD129BB.outsingletons.abund.fasta, cutoff=0.03)
+#Output:
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.outsingletons.abund.dist
+
+#Assign sequences to OTUs
+cluster(column=current, count=SRD129BB.outsingletons.abund.count_table) 
+#(using .03 as cutoff)
+#Output:
+#SRD129BB.outsingletons.abund.opti_mcc.list
+#SRD129BB.outsingletons.abund.opti_mcc.steps
+#SRD129BB.outsingletons.abund.opti_mcc.sensspec
+
+#Determine number of sequences in each OTU from each sample
+make.shared(list=current, count=SRD129BB.outsingletons.abund.count_table, label=0.03)
+#Output:
+#SRD129BB.outsingletons.abund.opti_mcc.shared
+
+
+#Identify taxonomies for each OTU
+classify.otu(list=SRD129BB.outsingletons.abund.opti_mcc.list, count=SRD129BB.outsingletons.abund.count_table, taxonomy=SRD129BB.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.nr_v132.wang.pick.taxonomy, label=0.03)
+#Output:
+#SRD129BB.outsingletons.abund.opti_mcc.0.03.cons.taxonomy
+#SRD129BB.outsingletons.abund.opti_mcc.0.03.cons.tax.summary
+
+#Files of importance
+#count=SRD129BB.outsingletons.abund.count_table
+#shared=SRD129BB.outsingletons.abund.opti_mcc.shared
+#constaxonomy=SRD129BB.outsingletons.abund.opti_mcc.0.03.cons.taxonomy
+
+#Determine number of sequences in each sample
+count.groups(shared=SRD129BB.outsingletons.abund.opti_mcc.shared)
+#Output:
+#SRD129BB.outsingletons.abund.opti_mcc.count.summary
+
+
+
+#Normalize data
+sub.sample(shared=SRD129BB.outsingletons.abund.opti_mcc.shared, size=7395) #375 smallest for P138, D3. #7395 second smallest 
+#Output:
+C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.outsingletons.abund.opti_mcc.0.03.subsample.shared
+
+#See number of sequences in each sample after subsampling as well as number of sequences total
+count.groups(shared=current)
+#Output:
+#C:\Users\Daniel.W.Nielsen\Desktop\SRD129_BB\samples\nasal\SRD129BB.outsingletons.abund.opti_mcc.0.03.subsample.count.summary
+
+#Determine final number of sequences #10,271
+summary.seqs(fasta=SRD129BB.outsingletons.abund.fasta)
+#Output:
+#SRD129BB.outsingletons.abund.summary 
+
+
