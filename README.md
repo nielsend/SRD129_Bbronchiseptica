@@ -6,7 +6,7 @@ This is the repository for scripts and data files pertaining to the research pap
 
 Fastq files are located in Bioproject PRJNA525911.
 
-R version 4.0.2 (2020-06-22) and accompanying packages were used to run the scripts for this research.
+R version 4.1.2 (2020-06-22) and accompanying packages were used to run the scripts for this research.
 
 ### **Nomenclature**
 BB = *Bordetella bronchiseptica*
@@ -14,8 +14,8 @@ BB = *Bordetella bronchiseptica*
 ## **Table of contents**
 | Chapter | Description |
 | -- | -- |
-| [data](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/data) | Includes data files needed to carry out R analysis |
-| [scripts](https://github.com/k39ajdM2/SRD129_Bordetella_bronchiseptica/tree/master/scripts) | Text file of commands used for mothur, R scripts for 16S rRNA analysis|
+| [data](https://github.com/nielsend/SRD129_Bbronchiseptica/tree/master/data) | Includes data files needed to carry out R analysis |
+| [scripts](https://github.com/nielsend/SRD129_Bbronchiseptica/tree/master/scripts) | Text file of commands used for mothur, R scripts for 16S rRNA analysis|
 
 ## **Scripts description and the order to run them**
 | Order | Description |
