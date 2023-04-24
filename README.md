@@ -1,4 +1,4 @@
-# SRD129_Bordetella_bronchiseptica
+# SRD129_Bbronchiseptica
 
 **Last updated 24Jan2022**
 
@@ -6,7 +6,7 @@ This is the repository for scripts and data files pertaining to the research pap
 
 Fastq files are located in Bioproject PRJNA525911.
 
-R version 4.1.2 (2020-06-22) and accompanying packages were used to run the scripts for this research.
+R version 4.1.2 and accompanying packages were used to run the scripts for this research.
 
 ### **Nomenclature**
 BB = *Bordetella bronchiseptica*
